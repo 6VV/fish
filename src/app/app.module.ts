@@ -18,6 +18,11 @@ import { WebviewDirective } from './directives/webview.directive';
 
 import { AppComponent } from './app.component';
 import { BaiduMapComponent } from './components/baidu-map/baidu-map.component';
+import { WaterQualityComponent } from './components/water-quality/water-quality.component';
+import { MainComponent } from './components/main/main.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MaterialModule } from './material.module';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -28,12 +33,15 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     BaiduMapComponent,
-    WebviewDirective
+    WebviewDirective,
+    WaterQualityComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    FlexLayoutModule,
     AppRoutingModule,
     TranslateModule.forRoot({
       loader: {
@@ -41,7 +49,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: (HttpLoaderFactory),
         deps: [HttpClient]
       }
-    })
+    }),
+    BrowserAnimationsModule,
+    MaterialModule
   ],
   providers: [ElectronService],
   bootstrap: [AppComponent]

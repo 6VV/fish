@@ -1,27 +1,27 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add @types/electron --dev
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add @angular/flex-layout
 
 PATH: 
-  /usr/bin:/opt/ros/kinetic/share/euslisp/jskeus/eus//Linux64/bin:/opt/ros/kinetic/bin:/home/vv_desktop/Software/PhpStorm-172.4155.25/bin:/opt/ros/kinetic/share/euslisp/jskeus/eus//Linux64/bin:/home/vv_desktop/anaconda3/bin:/home/vv_desktop/bin:/home/vv_desktop/.local/bin:/usr/bin:/opt/ros/kinetic/share/euslisp/jskeus/eus//Linux64/bin:/home/vv_desktop/Software/PhpStorm-172.4155.25/bin:/opt/ros/kinetic/share/euslisp/jskeus/eus//Linux64/bin:/home/vv_desktop/anaconda3/bin:/home/vv_desktop/bin:/home/vv_desktop/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+  C:\ProgramData\Anaconda3;C:\ProgramData\Anaconda3\Library\mingw-w64\bin;C:\ProgramData\Anaconda3\Library\usr\bin;C:\ProgramData\Anaconda3\Library\bin;C:\ProgramData\Anaconda3\Scripts;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Docker\Docker\Resources\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Git\cmd;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\nodejs\;C:\Program Files (x86)\Yarn\bin\;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;;C:\Users\Administrator\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Administrator\AppData\Roaming\npm;C:\Users\Administrator\AppData\Local\Yarn\bin
 
 Yarn version: 
   1.12.3
 
 Node version: 
-  11.4.0
+  10.14.2
 
 Platform: 
-  linux x64
+  win32 x64
 
 Trace: 
-  Error: ENOENT: no such file or directory, copyfile '/home/vv_desktop/.cache/yarn/v4/npm-ms-2.1.1-30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a/node_modules/ms/index.js' -> '/home/vv_desktop/Project/fish/angular-electron/node_modules/electron-download/node_modules/ms/index.js'
+  Error: EBUSY: resource busy or locked, unlink 'E:\Project\fish\node_modules\electron\dist\content_shell.pak'
 
 npm manifest: 
   {
-    "name": "angular-electron",
+    "name": "fish",
     "version": "5.1.0",
     "description": "Angular 7 with Electron (Typescript + SASS + Hot Reload)",
-    "homepage": "https://github.com/maximegris/angular-electron",
+    "homepage": "https://github.com/maximegris/fish",
     "author": {
       "name": "Maxime GRIS",
       "email": "maxime.gris@gmail.com"
@@ -56,7 +56,13 @@ npm manifest:
       "e2e": "npm run postinstall:web && ng e2e",
       "version": "conventional-changelog -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md"
     },
-    "dependencies": {},
+    "dependencies": {
+      "@angular/animations": ">=7.0.0",
+      "@angular/cdk": "~7.1.1",
+      "@angular/material": "^7.1.1",
+      "hammerjs": "^2.0.8",
+      "serialport": "^7.1.0"
+    },
     "devDependencies": {
       "@angular-devkit/build-angular": "~0.10.0",
       "@angular/cli": "7.0.6",
@@ -75,11 +81,13 @@ npm manifest:
       "@types/jasmine": "2.8.7",
       "@types/jasminewd2": "2.0.3",
       "@types/node": "8.9.4",
+      "@types/serialport": "^7.0.0",
       "codelyzer": "4.5.0",
       "conventional-changelog-cli": "2.0.11",
       "core-js": "2.5.7",
       "electron": "3.0.10",
       "electron-builder": "20.36.2",
+      "electron-rebuild": "^1.8.2",
       "electron-reload": "1.3.0",
       "jasmine-core": "3.3.0",
       "jasmine-spec-reporter": "4.2.1",

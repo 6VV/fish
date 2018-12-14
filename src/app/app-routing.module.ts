@@ -1,12 +1,11 @@
-import { HomeComponent } from './components/home/home.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { BaiduMapComponent } from './components/baidu-map/baidu-map.component';
+import { MainComponent } from './components/main/main.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: BaiduMapComponent
+        component: MainComponent
     }
 ];
 

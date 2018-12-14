@@ -1,52 +1,46 @@
 // GPS数据
 
 export class GPSValue {
-  private latDistance = 0.006996748266679731; // 百度数据与GPS数据差值
-  private lonDistance = 0.012772638020337013;
-  private _lat = 0;
-  private _lon = 0;
-  private _qual = 0;
+  // private latDistance = 0.006996748266679731; // 百度数据与GPS数据差值
+  // private lonDistance = 0.012772638020337013;
+  static latDistance = 0;
+  static lonDistance = 0;
+  public lat = 0;
+  public lon = 0;
+  public qual = 4;
   private _sats = 0;
-  private _direction = 0;
+  public direction = 0;
 
-  constructor() {}
+  constructor() { }
 
-  set lat(lat: number) {
-    this._lat = lat + this.latDistance;
+  public convert() {
+    const value = new GPSValue();
+    value.lat = this.lat + GPSValue.latDistance;
+    value.lon = this.lon + GPSValue.lonDistance;
+    value.qual = this.qual;
+    value.sats = this.sats;
+    value.direction = this.direction;
+
+    return value;
   }
 
-  get lat(): number {
-    return this._lat;
-  }
-
-  set lon(lon: number) {
-    this._lon = lon + this.lonDistance;
-  }
-
-  get lon(): number {
-    return this._lon;
-  }
-
-  set qual(qual: number) {
-    this._qual = qual;
-  }
-
-  get qual(): number {
-    return this._qual;
-  }
-  set sats(sats: number) {
-    this._sats = sats;
+  set sats(s: number) {
+    this._sats = s;
+    if (s > 12) {
+      this.qual = 4;
+    } else if (s > 10) {
+      this.qual = 5;
+    } else if (s > 8) {
+      this.qual = 3;
+    } else if (s > 6) {
+      this.qual = 2;
+    } else {
+      this.qual = 0;
+    }
   }
 
   get sats(): number {
     return this._sats;
   }
 
-  set direction(direction: number) {
-    this._direction = direction;
-  }
-
-  get direction(): number {
-    return this._direction;
-  }
 }
