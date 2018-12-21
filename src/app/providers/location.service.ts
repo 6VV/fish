@@ -72,7 +72,6 @@ export class LocationService {
   }
 
   private parse(data: string): any {
-    console.log(data);
     const values = data.trim().split(',');
     if (values.length !== 4) {
       console.log('err');
@@ -85,8 +84,6 @@ export class LocationService {
       const keyValue = values[i].split(':');
       jsonData[keyValue[0]] = Number(keyValue[1]);
     }
-
-    console.log(jsonData);
 
     return jsonData;
   }

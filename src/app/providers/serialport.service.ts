@@ -32,7 +32,7 @@ export class SerialportService {
 
   public writeData(data) {
     if (this.serialport) {
-      this.serialport.write(data);
+    this.serialport.write(data);
     }
   }
 
