@@ -17,14 +17,13 @@ export class WaterQualityComponent implements OnInit {
 
   ngOnInit() {
     this.serialportService.dataEmitter.subscribe((data) => {
-      this.locationManager.append(data);
       this.onSub(data);
     });
   }
 
   public onSub(data) {
+    this.locationManager.append(data);
     this.text = this.locationManager.getText();
-    console.log(data);
   }
 
 }

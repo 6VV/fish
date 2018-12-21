@@ -39,17 +39,17 @@ export class LocationService {
         // 定时发送数据
         setInterval(() => {
           const line = this.dataList[this.index++];
-          const jsonData = this.parse(line);
-
-          // 触发数据处理事件
-          this.objList.forEach(element => {
-            element.onSub(jsonData);
-          });
+          this.dataEmitter.emit(this.type, this.parse(line));
+          // // 触发数据处理事件
+          // this.objList.forEach(element => {
+          //   element.onSub(jsonData);
+          // });
         }, 1000);
       });
   }
 
   private parse(data: string): any {
+    console.log(data);
     const values = data.trim().split(',');
     if (values.length !== 4) {
       console.log('err');
@@ -62,6 +62,8 @@ export class LocationService {
       const keyValue = values[i].split(':');
       jsonData[keyValue[0]] = Number(keyValue[1]);
     }
+
+    console.log(jsonData);
 
     return jsonData;
   }

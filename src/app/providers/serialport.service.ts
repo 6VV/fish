@@ -31,7 +31,9 @@ export class SerialportService {
   }
 
   public writeData(data) {
-    this.serialport.write(data);
+    if (this.serialport) {
+      this.serialport.write(data);
+    }
   }
 
   public closePort(): void {

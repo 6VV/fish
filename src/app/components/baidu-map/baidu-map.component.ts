@@ -25,8 +25,8 @@ export class BaiduMapComponent implements OnInit, OnDestroy {
   }
 
   private onSub = (data): void => {
+    console.log(data);
     const value = this.parseGpsValue(data);
-    console.log(value);
     this.baiduMap.update(value);
   }
 
