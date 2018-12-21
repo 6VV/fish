@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LocationService } from '../../providers/location.service';
-import { text } from '@angular/core/src/render3';
+import { SerialportService } from '../../providers/serialport.service';
+import { LocationManager } from './locationManager';
 
 @Component({
   selector: 'app-water-quality',
@@ -10,16 +10,20 @@ import { text } from '@angular/core/src/render3';
 export class WaterQualityComponent implements OnInit {
 
   public text = '';
+  private locationManager = new LocationManager();
 
-  constructor(private locationService: LocationService) {
+  constructor(private serialportService: SerialportService) {
   }
 
   ngOnInit() {
-    this.locationService.regist(this);
+    this.serialportService.dataEmitter.subscribe((data) => {
+      this.locationManager.append(data);
+      this.onSub(data);
+    });
   }
 
   public onSub(data) {
-    this.text += JSON.stringify(data);
+    this.text = this.locationManager.getText();
     console.log(data);
   }
 

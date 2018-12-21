@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GPSValue } from './gps-value';
 import { BaiduMap } from './baidu-map';
 import { LocationService } from '../../providers/location.service';
@@ -8,7 +8,7 @@ import { LocationService } from '../../providers/location.service';
   templateUrl: './baidu-map.component.html',
   styleUrls: ['./baidu-map.component.css']
 })
-export class BaiduMapComponent implements OnInit {
+export class BaiduMapComponent implements OnInit, OnDestroy {
   public baiduMap: BaiduMap = null;
 
   constructor(private locationService: LocationService) {
@@ -16,11 +16,17 @@ export class BaiduMapComponent implements OnInit {
 
   ngOnInit() {
     this.baiduMap = new BaiduMap();
-    this.locationService.regist(this);
+    this.locationService.regist(this.onSub);
+    // this.locationService.regist(this.onSub);
   }
 
-  private onSub(data): void {
+  ngOnDestroy(): void {
+    this.locationService.unregist(this.onSub);
+  }
+
+  private onSub = (data): void => {
     const value = this.parseGpsValue(data);
+    console.log(value);
     this.baiduMap.update(value);
   }
 
@@ -37,5 +43,9 @@ export class BaiduMapComponent implements OnInit {
 
   public savePoint() {
     this.baiduMap.saveGpsValue();
+  }
+
+  public clearDrawLine() {
+    this.baiduMap.clearDrawLine();
   }
 }

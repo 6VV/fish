@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ElectronService } from './electron.service';
-import { TouchSequence } from 'selenium-webdriver';
-import { jsonpCallbackContext } from '@angular/common/http/src/module';
-// import * as SerialPort from 'serialport';
 import * as path from 'path';
-
+import { SerialportService } from './serialport.service';
+import { EventEmitter } from 'events';
 
 @Injectable({
   providedIn: 'root'
@@ -12,17 +10,21 @@ import * as path from 'path';
 export class LocationService {
 
   private objList = new Array();
+  private dataEmitter = new EventEmitter();
+  private type = 'location';
 
   private dataList: string[];
   private index = 0;
 
-  constructor(private electronService: ElectronService) {
-    this.mock();
+  constructor(private electronService: ElectronService, private serialPortService: SerialportService) {
+    // this.mock();
+    this.serialPortService.dataEmitter.subscribe((data) => {
+      this.dataEmitter.emit(this.type, this.parse(data));
+    });
   }
 
   // 模拟获取数据
   private mock() {
-
     // 读取数据
     this.electronService.fs.readFile(path.join(this.electronService.remote.app.getAppPath(),
       './file/gps_test.txt'), { flag: 'r' }, (err, data) => {
@@ -36,19 +38,8 @@ export class LocationService {
 
         // 定时发送数据
         setInterval(() => {
-          const line = this.dataList[this.index++].trim();
-          const values = line.split(',');
-          if (values.length !== 4) {
-            console.log('err');
-            return;
-          }
-
-          // 将数据解析为json格式
-          const jsonData = {};
-          for (let i = 0; i < values.length; ++i) {
-            const keyValue = values[i].split(':');
-            jsonData[keyValue[0]] = Number(keyValue[1]);
-          }
+          const line = this.dataList[this.index++];
+          const jsonData = this.parse(line);
 
           // 触发数据处理事件
           this.objList.forEach(element => {
@@ -58,13 +49,29 @@ export class LocationService {
       });
   }
 
-  /**
-    * regist
-    * 注册回调函数所在对象
-    */
-  public regist(obj: any) {
-    this.objList.push(obj);
+  private parse(data: string): any {
+    const values = data.trim().split(',');
+    if (values.length !== 4) {
+      console.log('err');
+      return;
+    }
+
+    // 将数据解析为json格式
+    const jsonData = {};
+    for (let i = 0; i < values.length; ++i) {
+      const keyValue = values[i].split(':');
+      jsonData[keyValue[0]] = Number(keyValue[1]);
+    }
+
+    return jsonData;
   }
 
+  public regist(fun: (data) => void) {
+    this.dataEmitter.addListener(this.type, fun);
+  }
+
+  public unregist(fun: (data) => void) {
+    this.dataEmitter.removeListener(this.type, fun);
+  }
 
 }

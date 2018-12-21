@@ -1,0 +1,19 @@
+<h2 mat-dialog-title color="primary">打开串口</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-select placeholder="选择串口" [(value)]="portSelected" [formControl]="portControl">
+      <mat-option *ngFor="let port of portNames" [value]="port" required>{{port}}</mat-option>
+    </mat-select>
+    <mat-error *ngIf="portControl.hasError('required')">请选择一个串口</mat-error>
+  </mat-form-field>
+  <mat-form-field style="margin-top: 10px">
+    <mat-select placeholder="波特率" [(value)]="baudrateSelected">
+      <mat-option *ngFor="let baudrate of baudrates" [value]="baudrate">{{baudrate}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close>No</button>
+  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  <button mat-raised-button color="primary"  (click)="confirm()">Yes</button>
+</mat-dialog-actions>

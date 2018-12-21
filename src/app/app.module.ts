@@ -2,7 +2,6 @@ import 'reflect-metadata';
 import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
@@ -17,12 +16,8 @@ import { ElectronService } from './providers/electron.service';
 import { WebviewDirective } from './directives/webview.directive';
 
 import { AppComponent } from './app.component';
-import { BaiduMapComponent } from './components/baidu-map/baidu-map.component';
-import { WaterQualityComponent } from './components/water-quality/water-quality.component';
-import { MainComponent } from './components/main/main.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { MaterialModule } from './material.module';
+import { ComponentsModule } from './components/components.module';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -32,16 +27,11 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
-    BaiduMapComponent,
     WebviewDirective,
-    WaterQualityComponent,
-    MainComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule,
     HttpClientModule,
-    FlexLayoutModule,
     AppRoutingModule,
     TranslateModule.forRoot({
       loader: {
@@ -51,7 +41,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     }),
     BrowserAnimationsModule,
-    MaterialModule
+    ComponentsModule
   ],
   providers: [ElectronService],
   bootstrap: [AppComponent]

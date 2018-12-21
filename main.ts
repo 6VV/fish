@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, Menu, MenuItem } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -18,6 +18,33 @@ function createWindow() {
     height: size.height
   });
 
+  // 更新菜单项
+  const portMenu = new MenuItem(
+    {
+      label: '操作',
+      submenu: [
+        {
+          label: '打开串口',
+          click() {
+            win.webContents.send('openPort', null);
+          },
+        },
+        {
+          label: '关闭串口',
+          click() {
+            win.webContents.send('closePort', null);
+          },
+        }
+      ]
+    }
+  );
+  let menu = Menu.getApplicationMenu();
+  if (!menu) {
+    menu = new Menu();
+  }
+  menu.append(portMenu);
+  Menu.setApplicationMenu(menu);
+
   if (serve) {
     require('electron-reload')(__dirname, {
       electron: require(`${__dirname}/node_modules/electron`)
@@ -31,7 +58,7 @@ function createWindow() {
     }));
   }
 
-  // win.webContents.openDevTools();
+  win.webContents.openDevTools();
 
   // Emitted when the window is closed.
   win.on('closed', () => {
