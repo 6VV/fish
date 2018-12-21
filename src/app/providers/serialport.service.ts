@@ -30,6 +30,10 @@ export class SerialportService {
     });
   }
 
+  public writeData(data) {
+    this.serialport.write(data);
+  }
+
   public closePort(): void {
     if (this.serialport) {
       this.serialport.close();

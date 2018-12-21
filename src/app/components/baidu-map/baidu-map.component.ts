@@ -15,7 +15,7 @@ export class BaiduMapComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.baiduMap = new BaiduMap();
+    this.baiduMap = new BaiduMap(this.locationService);
     this.locationService.regist(this.onSub);
     // this.locationService.regist(this.onSub);
   }

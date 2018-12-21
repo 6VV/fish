@@ -74,4 +74,8 @@ export class LocationService {
     this.dataEmitter.removeListener(this.type, fun);
   }
 
+  public writeData(data): void {
+    this.serialPortService.writeData(data);
+  }
+
 }

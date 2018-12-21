@@ -1,5 +1,6 @@
 import { Polylines } from './polylines';
 import { GPSValue } from './gps-value';
+import { LocationService } from '../../providers/location.service';
 
 // 百度地图
 
@@ -20,7 +21,7 @@ export class BaiduMap {
   private convertor = new BMap.Convertor();
   private drawLines = [];
 
-  constructor() {
+  constructor(private locationService: LocationService) {
     this.initMap();
     this.polylines = new Polylines(this.map);
   }
@@ -68,7 +69,22 @@ export class BaiduMap {
     // 添加鼠标绘制工具监听事件，用于获取绘制结果
     drawingManager.addEventListener('polylinecomplete', (polyline) => {
       this.drawLines.push(polyline);
-      console.log(polyline.getPath());
+      this.writeToFish(polyline.getPath());
+    });
+  }
+
+  private writeToFish(points): void {
+    this.convertor.translate(points, 1, 5, (data) => {
+      if (data.status !== 0) {
+        return;
+      }
+      const list = [];
+      data.points.forEach((d) => {
+        list.push(d.lat);
+        list.push(d.lng);
+      });
+      const buffer = new Float32Array(list);
+      this.locationService.writeData(buffer);
     });
   }
 
