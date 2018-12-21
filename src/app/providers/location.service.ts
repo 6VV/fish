@@ -15,12 +15,35 @@ export class LocationService {
 
   private dataList: string[];
   private index = 0;
+  private dataBuffer = '';
 
   constructor(private electronService: ElectronService, private serialPortService: SerialportService) {
     // this.mock();
     this.serialPortService.dataEmitter.subscribe((data) => {
-      this.dataEmitter.emit(this.type, this.parse(data));
+      this.dataBuffer += data;
+      const line = this.getLine(this.dataBuffer);
+      if (line) {
+        this.dataEmitter.emit(this.type, this.parse(line));
+      }
     });
+  }
+
+  private getLine(text: string): string {
+    const dataList = text.split('\n');
+    const length = dataList.length;
+    let result = '';
+
+    // 当获取完整数据时，最后一组为空字符，故仅判断数组长度大于1时的情况
+    if (length > 1 && dataList[length - 2].startsWith('Yaw')) {
+      result = dataList[length - 2];
+    }
+
+    // 截取dataBuffer为最后一部分
+    if (length > 0) {
+      this.dataBuffer = dataList[length - 1];
+    }
+
+    return result;
   }
 
   // 模拟获取数据
